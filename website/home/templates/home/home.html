@@ -4,15 +4,18 @@
 <head>
     <link rel="stylesheet" href="{% static 'home/style.css' %}">
 </head>
-        <h1>Welcome to the Homepage</h1>
-        <div id="posts-container">
-            {% for post in object_list %}
-            <div class="card mt-3">
-                <img src="https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630" class="card-img-top" alt="{{ post.title }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ post.title }}</h5>
-                    <p class="card-text">Author: {{ post.author.username }}</p>
-                </div>
+    <h1>Welcome to the Homepage</h1>
+    <div id="posts-container">
+        {% for post in object_list %}
+        <div class="card mt-3">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAxivrf6h-BlxalnK5YVlC2jgP6eYgBvW7VpixDrLvlA&s" class="card-img-top" alt="{{ post.title }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <!-- Add other post information here -->
+                <p class="card-text">Author: {{ post.author.username }}</p>
+                <a href="{% url 'article' pk=post.pk %}" class="btn btn-primary">Read More</a>
             </div>
-            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
 {% endblock %}

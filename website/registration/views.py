@@ -1,10 +1,12 @@
 from django.urls import reverse_lazy
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.views import PasswordChangeView, LoginView, LogoutView
-from django.views.generic.edit import FormView
-from django.views.generic import TemplateView
-from .forms import RegistrationForm, LoginForm, ChangePasswordForm
+from django.contrib.auth import logout
+from django.contrib.auth.views import PasswordChangeView, LoginView
+from django.views.generic.edit import FormView, UpdateView
+from django.views.generic import TemplateView, DetailView
+from .forms import RegistrationForm, ChangePasswordForm
 from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import ProfileModel
 
 class RegistrationFormView(FormView):
     template_name = 'registration/registration.html'
@@ -42,5 +44,17 @@ class LogOutView(TemplateView):
         return HttpResponseRedirect(reverse_lazy('login'))
     
 
-class ProfileView(TemplateView):
-    pass
+class ProfileView(LoginRequiredMixin, DetailView):
+    template_name = 'registration/profile.html'
+    model = ProfileModel
+    
+    def get_object(self, queryset=None):
+        # Ensure the user has a profile. If not, create one.
+        user_profile, created = ProfileModel.objects.get_or_create(username=self.request.user, defaults={'first_name': 'first name', 'last_name': 'last name', 'bio': 'Add some information about yourself!'})
+        return user_profile
+
+    
+    login_url = reverse_lazy('login')
+    redirect_field_name = reverse_lazy('profile')
+    
+    

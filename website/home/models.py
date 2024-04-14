@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 class Post(models.Model):
     title = models.CharField(max_length=30, blank=False)
@@ -8,6 +9,9 @@ class Post(models.Model):
     created = models.DateField(auto_now_add=True)
     like = models.IntegerField(default=0)
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    
+    def get_absolute_url(self):
+        return reverse('article', args=[str(self.pk)])
 
 
 class Comment(models.Model):

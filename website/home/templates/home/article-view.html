@@ -1,0 +1,30 @@
+<!-- home/article-view.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAxivrf6h-BlxalnK5YVlC2jgP6eYgBvW7VpixDrLvlA&s" class="card-img-top" alt="{{ post.title }}">
+        <div class="card-body">
+            <h5 class="card-title">{{ post.title }}</h5>
+            <p class="card-text">{{ post.text }}</p>
+            <p class="card-text">Author: {{ post.author.username }}</p>
+            <!-- Add other post details here -->
+        </div>
+    </div>
+    
+    <div class="mt-5">
+        <h3>Comments</h3>
+        {% if post.comment_set.all %}
+            <ul class="list-group">
+                {% for comment in post.comment_set.all %}
+                    <li class="list-group-item">
+                        <strong>{{ comment.author.username }}</strong>: {{ comment.text }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No comments yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

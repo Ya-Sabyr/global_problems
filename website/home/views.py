@@ -1,4 +1,4 @@
-from django.views.generic import ListView, TemplateView, CreateView
+from django.views.generic import ListView, DetailView
 from .models import Post
 
 class HomeListView(ListView):
@@ -6,8 +6,6 @@ class HomeListView(ListView):
     template_name = 'home/home.html'
 
 
-class PostView(TemplateView):
-    pass
-
-class CreateArticleView(CreateView):
-    pass
+class PostView(DetailView):
+    model = Post
+    template_name = 'home/article-view.html'
